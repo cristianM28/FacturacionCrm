@@ -80,7 +80,7 @@ namespace Facturacion_CRM_Comercial.UI
                 //    licencia.Guid_Producto = ldr["guidProducto"].ToString();
                 //    licencia.Cantidad = int.Parse(ldr["zth_cantidad"].ToString());
                 //    licencia.Pais = ldr["zth_pais"].ToString();
-                    //licencia.Cantidad = li.ObtenerCantidad(licencia.Guid_cliente);
+                           //licencia.Cantidad = li.ObtenerCantidad(licencia.Guid_cliente);
 
 
                     foreach (DataRow pdr in pdt.Rows)
@@ -92,20 +92,24 @@ namespace Facturacion_CRM_Comercial.UI
                         precios.GuidProducto = pdr["idProducto"].ToString();
                         precios.Pais = "";
 
+                        //  string cliente = "Zenith Consulting SPA"; 
+                        //string producto = "Dynamics 365 for Customer Service Enterprise";
+
+                        //string cliente = "73989d7c-2626-e911-a835-000d3a1b730f";
+                        //string producto = "d5ff654c-b13e-e911-a83b-000d3a1b730f";
 
 
-                    //string cliente = "Zenith Consulting SPA";
-                    //string producto = "Dynamics 365 for Customer Service Enterprise";
+                        //string cliente = "Oil Malal S.A.";
+                        //string producto = "Office 365 Business Essentials";
 
-                    string cliente = "Oil Malal S.A.";
-                    string producto = "Office 365 Business Essentials";
+                        string cliente = "ac94d5c7-853e-e911-a843-000d3a4fcfb2";
+                        string producto = "ec4bb360-b03e-e911-a83b-000d3a1b730f";
 
-
-                    if (precios.Cliente ==cliente && precios.Producto==producto)
+                        if (precios.GuidCliente == cliente && precios.GuidProducto== producto)
                         { 
 
                             /// VALIDAD SI EXISTE LA FACTURA 
-                            /// //{lsdnlksn{vlksd{vbs
+                 
                              fa.factura(licencia, precios);
                              break;
                         }
@@ -117,7 +121,7 @@ namespace Facturacion_CRM_Comercial.UI
                     }
 
                
-              //  }
+             // }
 
                 ZthMetodosVarios.Metodos.GuardarLog(ruta, "Creación exitasa" );
             }
@@ -137,10 +141,7 @@ namespace Facturacion_CRM_Comercial.UI
 
         }
 
-        private void lblMensaje2_Click(object sender, EventArgs e)
-        {
-
-        }
+       
 
         private void lblMensaje1_Click(object sender, EventArgs e)
         {

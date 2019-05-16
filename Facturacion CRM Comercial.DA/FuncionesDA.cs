@@ -328,40 +328,34 @@ namespace Facturacion_CRM_Comercial.DA
         }
 
 
-
-        /// <summary>
-        /// Metodo que obtiene las factura en orden descendente
-        /// </summary>
-        /// <returns>retorna las factura por el id</returns>
-        public DataTable ObtenerDatosFactura (string cli,string pro)
-        { 
+        public DataTable  Facturas(DateTime mes,DateTime mes2 ,string idcli)
+        {
             try
             {
 
                 ZthFetchXml365.zthFetch fetch = new ZthFetchXml365.zthFetch("invoice", ref servicio);
-                //fetch.AgregarEntidadLinkJoin("invoice", "invoicedetail", (zthFetch.TipoRelacionEntidadLink)1, "invoiceid", "invoicedetailid");
 
+                //fetch.AgregarCampoRetorno("invoice", "createdon", ZthFetchXml365.zthFetch.TipoRetorno.CrmDateTime);
+                 fetch.AgregarCampoRetorno("invoice", "customerid", ZthFetchXml365.zthFetch.TipoRetorno.LookupName);
+                //fetch.AgregarCampoRetorno("invoice", "invoicenumber", ZthFetchXml365.zthFetch.TipoRetorno.String);
                 fetch.AgregarCampoRetorno("invoice", "invoiceid", ZthFetchXml365.zthFetch.TipoRetorno.Key);
 
-                fetch.AgregarCampoRetorno("invoice", "customerid", ZthFetchXml365.zthFetch.TipoRetorno.LookupName);
-                fetch.AgregarCampoRetorno("invoicedetail", "invoicedetail", ZthFetchXml365.zthFetch.TipoRetorno.LookupName);
-                //fetch.AgregarOrdenResultadoEntidad("invoice", "invoiceid",
-                // ZthFetchXml365.zthFetch.TipoOrdenCampoResultadoEntidad.Descendiente);
+                fetch.AgregarFiltroPlano("invoice", ZthFetchXml365.zthFetch.TipoFiltro.and, "createdon",
+                  ZthFetchXml365.zthFetch.TipoComparacionFiltro.FechaMayorIgualQue,  ""+mes.Month+"/"+mes.Day+"/"+mes.Year+"");
 
-                //fetch.AgregarFiltroPlano("invoice", ZthFetchXml365.zthFetch.TipoFiltro.and, "customerid",
-                //   ZthFetchXml365.zthFetch.TipoComparacionFiltro.Igual, cli);
+                fetch.AgregarFiltroPlano("invoice", ZthFetchXml365.zthFetch.TipoFiltro.and, "createdon",
+                  ZthFetchXml365.zthFetch.TipoComparacionFiltro.FechaMenorIgualQue, "" + mes2.Month + "/" + mes2.Day + "/" + mes2.Year + "");
 
-                //fetch.AgregarFiltroPlano("invoicedetail", ZthFetchXml365.zthFetch.TipoFiltro.and, "invoicedetail",
-                //  ZthFetchXml365.zthFetch.TipoComparacionFiltro.Igual, pro);
-
+                fetch.AgregarFiltroPlano("invoice", ZthFetchXml365.zthFetch.TipoFiltro.and, "customerid",
+                 ZthFetchXml365.zthFetch.TipoComparacionFiltro.Igual,  idcli);
 
                 DataTable Dato = new DataTable();
                 Dato = fetch.GeneraTblconFetchResult(false);
 
-
+            
                 if (Dato.Rows.Count > 0)
                 {
-                    return Dato;
+                    return   Dato ;
                 }
                 else
                 {
@@ -377,39 +371,36 @@ namespace Facturacion_CRM_Comercial.DA
         }
 
 
-
-        /// <summary>
-        /// Metodo que valida si existe la factura por id de la factura 
-        /// </summary>
-        /// <param name="idf">id de la factur a</param>
-        /// <returns>retorna null si no existe la factura y si existe retorna el id de la factura</returns>
-        public string ValidaFactura(DataTable idf)
-            {
-
+        public string  IdFactura(string cli)
+        {
             try
             {
-                ZthFetchXml365.zthFetch fetch = new ZthFetchXml365.zthFetch("invoice", ref servicio); 
+
+                ZthFetchXml365.zthFetch fetch = new ZthFetchXml365.zthFetch("invoice", ref servicio);
+
+                fetch.AgregarCampoRetorno("invoice", "createdon", ZthFetchXml365.zthFetch.TipoRetorno.CrmDateTime);
                 fetch.AgregarCampoRetorno("invoice", "customerid", ZthFetchXml365.zthFetch.TipoRetorno.LookupName);
+                fetch.AgregarCampoRetorno("invoice", "invoicenumber", ZthFetchXml365.zthFetch.TipoRetorno.String);
+                fetch.AgregarCampoRetorno("invoice", "name", ZthFetchXml365.zthFetch.TipoRetorno.String);
 
                 fetch.AgregarFiltroPlano("invoice", ZthFetchXml365.zthFetch.TipoFiltro.and, "invoiceid",
-               ZthFetchXml365.zthFetch.TipoComparacionFiltro.Igual,  idf.ToString());
+                  ZthFetchXml365.zthFetch.TipoComparacionFiltro.Igual, cli);
 
-
-
-
+                fetch.AgregarOrdenResultadoEntidad("invoice", "createdon",
+                 ZthFetchXml365.zthFetch.TipoOrdenCampoResultadoEntidad.Descendiente);
 
                 DataTable Dato = new DataTable();
                 Dato = fetch.GeneraTblconFetchResult(false);
 
-                string id;
+                string idFac;
                 if (Dato.Rows.Count > 0)
                 {
-                    return id = Dato.Rows[0]["customerid"].ToString();
+                    return idFac =  Dato.Rows[0]["invoicenumber"].ToString();
                 }
                 else
                 {
-                    return id = null;
-                } 
+                    return idFac = null;
+                }
             }
             catch (Exception ex)
             {
@@ -417,10 +408,56 @@ namespace Facturacion_CRM_Comercial.DA
                 ZthMetodosVarios.Metodos.GuardarLog(ruta, "Error al obtener los datos de licecia csp: " + ex.Message.ToString());
                 return null;
             }
-
         }
 
+        /// <summary>
+        ///   Metodo que obtiene la fecha de creación de la factrua 
+        /// </summary>
+        /// <param name="cli"> Se da por parametor el Guid del cliente</param>
+        /// <returns>Retorna la fecha de creacion de la factura </returns>
+        public DateTime FechaCreaciónFactura (string cli ,string idfac)
+        { 
+            try
+            {
 
+                ZthFetchXml365.zthFetch fetch = new ZthFetchXml365.zthFetch("invoice", ref servicio);
+                 
+                fetch.AgregarCampoRetorno("invoice", "createdon", ZthFetchXml365.zthFetch.TipoRetorno.CrmDateTime);
+                fetch.AgregarCampoRetorno("invoice", "customerid", ZthFetchXml365.zthFetch.TipoRetorno.LookupName);
+                fetch.AgregarCampoRetorno("invoice", "invoicenumber", ZthFetchXml365.zthFetch.TipoRetorno.String);
+
+                //fetch.AgregarFiltroPlano("invoice", ZthFetchXml365.zthFetch.TipoFiltro.and, "customerid",
+                //  ZthFetchXml365.zthFetch.TipoComparacionFiltro.Igual,cli);
+
+                fetch.AgregarFiltroPlano("invoice", ZthFetchXml365.zthFetch.TipoFiltro.and, "invoicenumber",
+                 ZthFetchXml365.zthFetch.TipoComparacionFiltro.Igual, idfac);
+
+                //fetch.AgregarOrdenResultadoEntidad("invoice", "createdon",
+                //   ZthFetchXml365.zthFetch.TipoOrdenCampoResultadoEntidad.Descendiente);
+
+
+
+                DataTable Dato = new DataTable();
+                Dato = fetch.GeneraTblconFetchResult(false);
+
+                DateTime idFac;
+                if (Dato.Rows.Count > 0)
+                {
+                    return idFac = (DateTime)Dato.Rows[0]["createdon"];
+                }
+                else
+                {
+                    return idFac =new DateTime() ;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                ZthMetodosVarios.Metodos.GuardarLog(ruta, "Error al obtener los datos de licecia csp: " + ex.Message.ToString());
+                 return new DateTime();
+            }
+        }
+         
         /// <summary>
         /// Captura losproductos de los clienetes 
         /// </summary>
@@ -465,8 +502,13 @@ namespace Facturacion_CRM_Comercial.DA
 
 
         
-
-        public string IdProductos(string idcli ,string idpro )
+        /// <summary>
+        /// Obtiene el numero identificacor del producto del detalle de la factura 
+        /// </summary>
+        /// <param name="idprode">id del detalle de la factura </param>
+        /// <param name="idpro">id del producto</param>
+        /// <returns></returns>
+        public string IdProductos(string idprode ,string idpro )
         {
             try
             {
@@ -479,7 +521,7 @@ namespace Facturacion_CRM_Comercial.DA
                 //   ZthFetchXml365.zthFetch.TipoOrdenCampoResultadoEntidad.Descendiente);
 
                 fetch.AgregarFiltroPlano("invoicedetail", ZthFetchXml365.zthFetch.TipoFiltro.and, "invoiceid",
-                ZthFetchXml365.zthFetch.TipoComparacionFiltro.Igual, idcli  );
+                ZthFetchXml365.zthFetch.TipoComparacionFiltro.Igual, idprode  );
                 fetch.AgregarFiltroPlano("invoicedetail", ZthFetchXml365.zthFetch.TipoFiltro.and, "productid",
                ZthFetchXml365.zthFetch.TipoComparacionFiltro.Igual, idpro);
 
