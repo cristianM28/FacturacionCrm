@@ -30,6 +30,7 @@ namespace Facturacion_CRM_Comercial.DA
         int limitada=int.Parse(ConfigurationManager.AppSettings["Zenith Consulting Limitada"]);
         int sac=int.Parse(ConfigurationManager.AppSettings["Zenith Consulting S.A.C"]) ;
         int sap=int.Parse(ConfigurationManager.AppSettings["Zenith Consulting SPA"]);
+        decimal tipo =decimal.Parse (ConfigurationManager.AppSettings["Tipo de Cambio"]);
         #endregion
 
         #region Metodos
@@ -39,7 +40,9 @@ namespace Facturacion_CRM_Comercial.DA
         {
 
             FuncionesDA fun = new FuncionesDA();
+            
             EntidadesCRM.Invoice Factura = new EntidadesCRM.Invoice();
+                       
             Guid guid;
             string creado;
 
@@ -49,105 +52,115 @@ namespace Facturacion_CRM_Comercial.DA
                 DateTime fechaActual = DateTime.Today; ///fecha cactual  
                 DateTime mes = new DateTime(fechaActual.Year, fechaActual.Month, 1);/// instanciado desde el dia 1 del mes; 
                 DateTime mes2 =new DateTime(fechaActual.Year,fechaActual.Month, 30);//ultimo dia del mes
-                
+
                 ///Facturas creadas dentro del mes 
-               DataTable fa = fun.Facturas(mes,mes2,pre.GuidCliente);
-                if (fa.Rows.Count>0) {
-                    foreach (DataRow dr in fa.Rows)
-                    {
-                        //string idFactura = fun.IdFactura(dr["invoiceid"].ToString());
-                        //DateTime valida = fun.FechaCreaciónFactura(pre.GuidCliente, idFactura);
-                        string c = dr["customerid"].ToString();
-                        if (c==pre.Cliente)
-                        {
-                            ///facturas creadas dentro del mes 
-                        }
-                        else
-                        {
-                            //facturas creadas fuera del mes
-                        }
-                    }
-
-                }
+                // DataTable fa = fun.Facturas(mes, mes2, pre.GuidCliente);
 
 
-                            //Valida si existe la factura  por la feche de creacion             
-                //if (valida > mes && valida < mes2)
-                //{
-                //    /// LA FACTURA YA EXISTE!!!
-                //    ZthMetodosVarios.Metodos.GuardarLog(ruta, "La factura ya existe ");
-                //}
-                //else
-                //{
+                // if (fa.Rows.Count>0) {
+                //     foreach (DataRow dr in fa.Rows)
+                //     {
 
-                    //SE CREA LA FACTURA
-                    //pre.Pais = fun.ObtenerPais(pre.GuidCliente.ToString());
-                    //if (pre.Pais == "Chile")
-                    //{ 
-                    //    Factura.zth_zenithempresa = new OptionSetValue(sap);
-                    //}
-                    //else
-                    //{
-                    //    if (pre.Pais == "Perú")
-                    //    {
-                    //        Factura.zth_zenithempresa = new OptionSetValue(sac);
-                    //    }
-                    //}
+                //         //string idFactura = fun.IdFactura(dr["invoiceid"].ToString());
+                //         //DateTime valida = fun.FechaCreaciónFactura(pre.GuidCliente, idFactura);
+                //         string c = dr["customerid"].ToString();
+                //         string p = dr["productid"].ToString();
+                //         if (c==pre.Cliente && p==pre.Producto) 
+                //         {
+                //             ///facturas creadas dentro del mes 
+                //         }
+                //         else
+                //         {
+                //             //facturas creadas fuera del mes
+                //         }
+                //     }
 
-                    // NUMERO DE LA FACTURA
-                    //Factura.zth_nrofactrurafiscal;
-                    //Factura.zth_fechaemision;
-
-
-                    //Factura.Name = "PRUEBA"+li.Cliente;
-                    Factura.CustomerId = new EntityReference(EntidadesCRM.Account.EntityLogicalName, new Guid(pre.GuidCliente));
-                    Factura.PriceLevelId = new EntityReference(EntidadesCRM.Invoice.EntityLogicalName, new Guid(ListaPrecios));
-                    Factura.Description = "FACTURA DE PRUEBA :" + li.Cliente + pre.Producto;
-                    guid = servicio.Create(Factura);
-
-                    //obtine los productos de los clientes por el guid del cliente
-                    DataTable productos = fun.ProductosCliente(pre.GuidCliente);
-
-
-                    if (productos.Rows.Count > 0)
-                    {
-                        EntidadesCRM.InvoiceDetail pro = new EntidadesCRM.InvoiceDetail();
-                        foreach (DataRow dr in productos.Rows)
-                        {
-                            // NO EXISTE
-                            pro.InvoiceId = new EntityReference(EntidadesCRM.Invoice.EntityLogicalName, guid);
-                            pro.ProductId = new EntityReference(EntidadesCRM.Invoice.EntityLogicalName, new Guid(dr["zth_producto"].ToString()));
-                            string id = fun.IdProductos(pro.InvoiceId.Id.ToString(), pro.ProductId.Id.ToString());
-
-                            if (id == null)
-                            {
-                                //se crea
-                                string unidad = fun.ObtenerUnidad(IDUnidad);
-                                pro.UoMId = new EntityReference(EntidadesCRM.UoM.EntityLogicalName, new Guid(unidad));
-                                pro.Quantity = fun.ObtenerCantidad(pre.GuidCliente, dr["zth_producto"].ToString());
-                                pro.IsPriceOverridden = true;
-                                //se obtiene el ultimo valor registrado
-                                Money valor = fun.RetornaUltimoValor(pre.GuidCliente, dr["zth_producto"].ToString());
-                                pro.PricePerUnit = valor;
-                                pro.zth_tipocambio = 678;
-                                //Se crea el detalle de la factura 
-                                creado = servicio.Create(pro).ToString();
-                            }
-                            else
-                            {
-                                break;
-                            }
-
-                        }
-
-                    }
                 // }
- 
+
+                DataTable valida = fun.FechaCreacion(mes, mes2, pre.GuidCliente);
+                foreach (DataRow row in valida.Rows)
+                {
+                    DateTime date =(DateTime) row["createdon"];
+                    //Valida si existe la factura  por la feche de creacion             
+                    if ( date< mes &&  date > mes2)
+                    {
+                        /// LA FACTURA YA EXISTE!!!
+                        ZthMetodosVarios.Metodos.GuardarLog(ruta, "La factura ya existe ");
+                    }
+                    else
+                    {
+
+                        //SE CREA LA FACTURA
+                        //pre.Pais = fun.ObtenerPais(pre.GuidCliente.ToString());
+                        //if (pre.Pais == "Chile")
+                        //{ 
+                        //    Factura.zth_zenithempresa = new OptionSetValue(sap);
+                        //}
+                        //else
+                        //{
+                        //    if (pre.Pais == "Perú")
+                        //    {
+                        //        Factura.zth_zenithempresa = new OptionSetValue(sac);
+                        //    }
+                        //}
+
+                        // NUMERO DE LA FACTURA
+                        //Factura.zth_nrofactrurafiscal;
+                        //Factura.zth_fechaemision;
+
+
+                        //Factura.Name = "PRUEBA"+li.Cliente;
+                        Factura.CustomerId = new EntityReference(EntidadesCRM.Account.EntityLogicalName, new Guid(pre.GuidCliente));
+                        Factura.PriceLevelId = new EntityReference(EntidadesCRM.Invoice.EntityLogicalName, new Guid(ListaPrecios));
+                        Factura.zth_tipocambio =tipo;
+                        Factura.Description = "FACTURA DE PRUEBA :" + li.Cliente + pre.Producto;
+                        Factura. = tipo;
+                        guid = servicio.Create(Factura);
+
+                        //obtine los productos de los clientes por el guid del cliente
+                        DataTable productos = fun.ProductosCliente(pre.GuidCliente);
+
+
+                        if (productos.Rows.Count > 0)
+                        {
+                            EntidadesCRM.InvoiceDetail pro = new EntidadesCRM.InvoiceDetail();
+                            foreach (DataRow dr in productos.Rows)
+                            {
+                                // NO EXISTE
+                                pro.InvoiceId = new EntityReference(EntidadesCRM.Invoice.EntityLogicalName, guid);
+                                pro.ProductId = new EntityReference(EntidadesCRM.Invoice.EntityLogicalName, new Guid(dr["zth_producto"].ToString()));
+                                string id = fun.IdProductos(pro.InvoiceId.Id.ToString(), pro.ProductId.Id.ToString());
+
+                                if (id == null)
+                                {
+                                    //se crea
+                                    string unidad = fun.ObtenerUnidad(IDUnidad);
+                                    pro.UoMId = new EntityReference(EntidadesCRM.UoM.EntityLogicalName, new Guid(unidad));
+                                    pro.Quantity = fun.ObtenerCantidad(pre.GuidCliente, dr["zth_producto"].ToString());
+                                    pro.IsPriceOverridden = true;
+                                    //se obtiene el ultimo valor registrado
+                                    Money valor = fun.RetornaUltimoValor(pre.GuidCliente, dr["zth_producto"].ToString());
+                                    pro.PricePerUnit = valor;
+                                    pro.zth_tipocambio = 678;
+                                    //Se crea el detalle de la factura 
+                                    creado = servicio.Create(pro).ToString();
+                                }
+                                else
+                                {
+                                    break;
+                                }
+
+                            }
+
+                        }
+                    }
                 }
 
-                
-             
-             
+
+
+
+                }
+              
             catch (Exception ex)
             { 
                

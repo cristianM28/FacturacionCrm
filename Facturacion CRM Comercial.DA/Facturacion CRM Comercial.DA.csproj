@@ -73,7 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConexionCRMDA.cs" />
-    <Compile Include="EntidadesCRMDA.cs" />
+    <Compile Include="EntidadesCRM.cs" />
     <Compile Include="FacturaDA.cs" />
     <Compile Include="FuncionesDA.cs" />
     <Compile Include="LicenciaCSPDA.cs" />

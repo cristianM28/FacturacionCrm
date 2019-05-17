@@ -334,11 +334,15 @@ namespace Facturacion_CRM_Comercial.DA
             {
 
                 ZthFetchXml365.zthFetch fetch = new ZthFetchXml365.zthFetch("invoice", ref servicio);
+                //fetch.AgregarEntidadLinkJoin("invoice", "invoicedetail", (zthFetch.TipoRelacionEntidadLink)1, "invoiceid", "invoiceid");
 
-                //fetch.AgregarCampoRetorno("invoice", "createdon", ZthFetchXml365.zthFetch.TipoRetorno.CrmDateTime);
+                 fetch.AgregarCampoRetorno("invoice", "createdon", ZthFetchXml365.zthFetch.TipoRetorno.CrmDateTime);
                  fetch.AgregarCampoRetorno("invoice", "customerid", ZthFetchXml365.zthFetch.TipoRetorno.LookupName);
-                //fetch.AgregarCampoRetorno("invoice", "invoicenumber", ZthFetchXml365.zthFetch.TipoRetorno.String);
-                fetch.AgregarCampoRetorno("invoice", "invoiceid", ZthFetchXml365.zthFetch.TipoRetorno.Key);
+                fetch.AgregarCampoRetorno("invoice", "invoicenumber", ZthFetchXml365.zthFetch.TipoRetorno.String);
+                fetch.AgregarCampoRetorno("invoice", "zth_nrofactrurafiscal", ZthFetchXml365.zthFetch.TipoRetorno.String); 
+               fetch.AgregarCampoRetorno("invoice", "zth_tipodeorigen", ZthFetchXml365.zthFetch.TipoRetorno.PicklistName);
+                //fetch.AgregarCampoRetorno("invoicedetail", "productid", ZthFetchXml365.zthFetch.TipoRetorno.LookupName);
+
 
                 fetch.AgregarFiltroPlano("invoice", ZthFetchXml365.zthFetch.TipoFiltro.and, "createdon",
                   ZthFetchXml365.zthFetch.TipoComparacionFiltro.FechaMayorIgualQue,  ""+mes.Month+"/"+mes.Day+"/"+mes.Year+"");
@@ -370,6 +374,53 @@ namespace Facturacion_CRM_Comercial.DA
             }
         }
 
+
+        public DataTable FechaCreacion(DateTime mes, DateTime mes2, string idcli)
+        {
+            try
+            {
+
+                ZthFetchXml365.zthFetch fetch = new ZthFetchXml365.zthFetch("invoice", ref servicio);
+                //fetch.AgregarEntidadLinkJoin("invoice", "invoicedetail", (zthFetch.TipoRelacionEntidadLink)1, "invoiceid", "invoiceid");
+
+                fetch.AgregarCampoRetorno("invoice", "createdon", ZthFetchXml365.zthFetch.TipoRetorno.CrmDateTime);
+                fetch.AgregarCampoRetorno("invoice", "customerid", ZthFetchXml365.zthFetch.TipoRetorno.LookupName);
+                fetch.AgregarCampoRetorno("invoice", "invoicenumber", ZthFetchXml365.zthFetch.TipoRetorno.String);
+                fetch.AgregarCampoRetorno("invoice", "zth_nrofactrurafiscal", ZthFetchXml365.zthFetch.TipoRetorno.String);
+
+                //fetch.AgregarCampoRetorno("invoice", "invoiceid", ZthFetchXml365.zthFetch.TipoRetorno.Key);
+                //fetch.AgregarCampoRetorno("invoicedetail", "productid", ZthFetchXml365.zthFetch.TipoRetorno.LookupName);
+
+
+                fetch.AgregarFiltroPlano("invoice", ZthFetchXml365.zthFetch.TipoFiltro.and, "createdon",
+                  ZthFetchXml365.zthFetch.TipoComparacionFiltro.FechaMayorIgualQue, "" + mes.Month + "/" + mes.Day + "/" + mes.Year + "");
+
+                fetch.AgregarFiltroPlano("invoice", ZthFetchXml365.zthFetch.TipoFiltro.and, "createdon",
+                  ZthFetchXml365.zthFetch.TipoComparacionFiltro.FechaMenorIgualQue, "" + mes2.Month + "/" + mes2.Day + "/" + mes2.Year + "");
+
+                fetch.AgregarFiltroPlano("invoice", ZthFetchXml365.zthFetch.TipoFiltro.and, "customerid",
+                 ZthFetchXml365.zthFetch.TipoComparacionFiltro.Igual, idcli);
+
+                DataTable Dato = new DataTable();
+                Dato = fetch.GeneraTblconFetchResult(false);
+
+                
+                if (Dato.Rows.Count > 0)
+                {
+                    return   Dato ;
+                }
+                else
+                {
+                    return Dato;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                ZthMetodosVarios.Metodos.GuardarLog(ruta, "Error al obtener los datos de licecia csp: " + ex.Message.ToString());
+                return null;
+            }
+        }
 
         public string  IdFactura(string cli)
         {
