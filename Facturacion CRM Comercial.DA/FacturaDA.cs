@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Facturacion_CRM_Comercial.BE;
 using Microsoft.Xrm.Sdk;
-
+ 
 namespace Facturacion_CRM_Comercial.DA
 {
     public class FacturaDA
@@ -30,7 +30,7 @@ namespace Facturacion_CRM_Comercial.DA
         int limitada=int.Parse(ConfigurationManager.AppSettings["Zenith Consulting Limitada"]);
         int sac=int.Parse(ConfigurationManager.AppSettings["Zenith Consulting S.A.C"]) ;
         int sap=int.Parse(ConfigurationManager.AppSettings["Zenith Consulting SPA"]);
-        decimal tipo =decimal.Parse (ConfigurationManager.AppSettings["Tipo de Cambio"]);
+       int tipo =int.Parse (ConfigurationManager.AppSettings["Tipo de Cambio"]);
         #endregion
 
         #region Metodos
@@ -40,12 +40,12 @@ namespace Facturacion_CRM_Comercial.DA
         {
 
             FuncionesDA fun = new FuncionesDA();
-            
-            EntidadesCRM.Invoice Factura = new EntidadesCRM.Invoice();
-                       
-            Guid guid;
-            string creado;
 
+            //EntidadesCRM.Invoice Factura = new EntidadesCRM.Invoice();
+            EntidadesCRM.Invoice Factura = new EntidadesCRM.Invoice();
+      
+            string creado;
+            Guid guid;
 
             try
             {
@@ -77,44 +77,53 @@ namespace Facturacion_CRM_Comercial.DA
 
                 // }
 
-                DataTable valida = fun.FechaCreacion(mes, mes2, pre.GuidCliente);
+                DataTable valida = fun.FechaCreacion(mes, mes2 ,pre.GuidCliente,tipo );
+               ///  int c= valida.Rows.Count;
+                
                 foreach (DataRow row in valida.Rows)
                 {
-                    DateTime date =(DateTime) row["createdon"];
-                    //Valida si existe la factura  por la feche de creacion             
-                    if ( date< mes &&  date > mes2)
+                    DateTime date = (DateTime)row["createdon"];
+                    string c = row["customerid"].ToString();
+                    string origen = row["zth_tipodeorigen"].ToString();
+
+                    if (date!=null && c==pre.GuidCliente && origen==tipo.ToString())
                     {
-                        /// LA FACTURA YA EXISTE!!!
                         ZthMetodosVarios.Metodos.GuardarLog(ruta, "La factura ya existe ");
                     }
                     else
                     {
-
                         //SE CREA LA FACTURA
-                        //pre.Pais = fun.ObtenerPais(pre.GuidCliente.ToString());
-                        //if (pre.Pais == "Chile")
-                        //{ 
-                        //    Factura.zth_zenithempresa = new OptionSetValue(sap);
-                        //}
-                        //else
-                        //{
-                        //    if (pre.Pais == "Perú")
-                        //    {
-                        //        Factura.zth_zenithempresa = new OptionSetValue(sac);
-                        //    }
-                        //}
+                //    }
+                //}
+                 
+                   
+                //SE CREA LA FACTURA
+                //pre.Pais = fun.ObtenerPais(pre.GuidCliente.ToString());
+                //if (pre.Pais == "Chile")
+                //{ 
+                //    Factura.zth_zenithempresa = new OptionSetValue(sap);
+                //}
+                //else
+                //{
+                //    if (pre.Pais == "Perú")
+                //    {
+                //        Factura.zth_zenithempresa = new OptionSetValue(sac);
+                //    }
+                //}
 
-                        // NUMERO DE LA FACTURA
-                        //Factura.zth_nrofactrurafiscal;
-                        //Factura.zth_fechaemision;
+                // NUMERO DE LA FACTURA
+                //Factura.zth_nrofactrurafiscal;
+                //Factura.zth_fechaemision;
 
 
-                        //Factura.Name = "PRUEBA"+li.Cliente;
-                        Factura.CustomerId = new EntityReference(EntidadesCRM.Account.EntityLogicalName, new Guid(pre.GuidCliente));
+                //Factura.Name = "PRUEBA"+li.Cliente;
+                Factura.CustomerId = new EntityReference(EntidadesCRM.Account.EntityLogicalName, new Guid(pre.GuidCliente));
                         Factura.PriceLevelId = new EntityReference(EntidadesCRM.Invoice.EntityLogicalName, new Guid(ListaPrecios));
-                        Factura.zth_tipocambio =tipo;
+                        Factura.zth_tipocambio = tipo;
                         Factura.Description = "FACTURA DE PRUEBA :" + li.Cliente + pre.Producto;
-                        Factura. = tipo;
+                        //----------------------------------------------------------
+                        Factura.zth_TipodeOrigen = new OptionSetValue(tipo);
+                        //----------------------------------------------------------
                         guid = servicio.Create(Factura);
 
                         //obtine los productos de los clientes por el guid del cliente
@@ -144,6 +153,7 @@ namespace Facturacion_CRM_Comercial.DA
                                     pro.zth_tipocambio = 678;
                                     //Se crea el detalle de la factura 
                                     creado = servicio.Create(pro).ToString();
+                                    
                                 }
                                 else
                                 {
@@ -153,14 +163,14 @@ namespace Facturacion_CRM_Comercial.DA
                             }
 
                         }
+
+
                     }
-                }
-
-
-
 
                 }
-              
+
+
+            }
             catch (Exception ex)
             { 
                

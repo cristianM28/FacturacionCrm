@@ -92,20 +92,20 @@ namespace Facturacion_CRM_Comercial.UI
                         precios.GuidProducto = pdr["idProducto"].ToString();
                         precios.Pais = "";
 
-                        //  string cliente = "Zenith Consulting SPA"; 
-                        //string producto = "Dynamics 365 for Customer Service Enterprise";
+                    //  string cliente = "Zenith Consulting SPA"; 
+                    //string producto = "Dynamics 365 for Customer Service Enterprise";
 
-                        //string cliente = "73989d7c-2626-e911-a835-000d3a1b730f";
-                        //string producto = "d5ff654c-b13e-e911-a83b-000d3a1b730f";
+                    //string cliente = "73989d7c-2626-e911-a835-000d3a1b730f";
+                    //string producto = "d5ff654c-b13e-e911-a83b-000d3a1b730f";
 
 
-                        //string cliente = "Oil Malal S.A.";
-                        //string producto = "Office 365 Business Essentials";
+                    //string cliente = "Oil Malal S.A.";
+                    //string producto = "Office 365 Business Essentials";
 
-                        string cliente = "ac94d5c7-853e-e911-a843-000d3a4fcfb2";
-                        string producto = "ec4bb360-b03e-e911-a83b-000d3a1b730f";
+                    string cliente = "ac94d5c7-853e-e911-a843-000d3a4fcfb2";
+                    string producto = "ec4bb360-b03e-e911-a83b-000d3a1b730f";
 
-                        if (precios.GuidCliente == cliente && precios.GuidProducto== producto)
+                    if (precios.GuidCliente == cliente && precios.GuidProducto== producto)
                         { 
 
                             /// VALIDAD SI EXISTE LA FACTURA 
