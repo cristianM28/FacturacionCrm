@@ -38,16 +38,17 @@ namespace Facturacion_CRM_Comercial.BL
         /// <param name="pre">parametros de precio licencia cliente</param>
         /// <returns> retorna la factura creada</returns>
 
-        public void factura(LicenciaCspBE lic, PrecioLicenciaClienteBE pre)
+        public string factura(LicenciaCspBE lic, PrecioLicenciaClienteBE pre)
         {
             try
             {
-               fa.CrearFactura(lic, pre);
+              return fa.CrearFactura(lic, pre);
             }
             catch (Exception ex)
             {
-
+                return null;
                 throw ex;
+              
             }
         }
 

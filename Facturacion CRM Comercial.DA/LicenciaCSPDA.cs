@@ -72,7 +72,7 @@ namespace Facturacion_CRM_Comercial.DA
         /// Metodo que suma la cantidad de productos
         /// </summary>
         /// <returns>Retorna la suma de la cantidad</returns>
-        public int CantidadProductos(string id ,string idpro)
+    /*    public int CantidadProductos(string id ,string idpro)
         {
              
             int totalProducto = 0; 
@@ -93,7 +93,7 @@ namespace Facturacion_CRM_Comercial.DA
                 return 0;
             }
         }
-      
+      */
 
 
         #endregion 

@@ -48,7 +48,7 @@ namespace Facturacion_CRM_Comercial.BL
         /// Obtiene la cantidad de los productos 
         /// </summary>
         /// <returns>Retorna la cantidad de las productos</returns>
-        public int ObtenerCantidad(string id ,string idpro)
+    /*    public int ObtenerCantidad(string id ,string idpro)
         {
             try
             {
@@ -60,7 +60,7 @@ namespace Facturacion_CRM_Comercial.BL
                 throw ex;
             }
         }
-
+        */
 
 
         #endregion

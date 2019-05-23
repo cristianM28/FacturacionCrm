@@ -44,8 +44,8 @@ namespace Facturacion_CRM_Comercial.UI
         {
 
 
-            CargarDatosFactura();
-            lblMensaje1.Text = "PROCESO  TERMINADO"; 
+         string  existe=  CargarDatosFactura();
+            lblMensaje1.Text = "PROCESO TERMINADO  "+existe; 
         }
 
 
@@ -54,33 +54,31 @@ namespace Facturacion_CRM_Comercial.UI
         /// <summary>
         /// Metodo donde se cargan los datos en la entidad factura
         /// </summary>
-        public void CargarDatosFactura()
-        {
-        
-           
+        public string CargarDatosFactura()
+        { 
             DataTable ldt = li.CapturDatosLicencia();
             DataTable pdt = pre.CapturaDatosCrm();
-            string creado;
+            
             try
             {
-
-
+                string creado = "";
                 //int contador = 0;
-                //foreach (DataRow ldr in ldt.Rows)
-                //{
-                //    //if (contador ==1)
-                //    //{
-                //    //    break;
+                foreach (DataRow ldr in ldt.Rows)
+                {
+                    //if (contador ==1)
+                    //{
+                    //    break;
 
-                //    //}
-                //    licencia.Cliente = ldr["zth_cliente"].ToString();
-                //    licencia.Cantidad = int.Parse(ldr["zth_cantidad"].ToString());
-                //    licencia.Producto = ldr["zth_producto"].ToString();
-                //    licencia.Guid_cliente = ldr["guidCliente"].ToString();
-                //    licencia.Guid_Producto = ldr["guidProducto"].ToString();
-                //    licencia.Cantidad = int.Parse(ldr["zth_cantidad"].ToString());
-                //    licencia.Pais = ldr["zth_pais"].ToString();
-                           //licencia.Cantidad = li.ObtenerCantidad(licencia.Guid_cliente);
+                    //}
+                    licencia.Cliente = ldr["zth_cliente"].ToString();
+                    licencia.Cantidad = int.Parse(ldr["zth_cantidad"].ToString());
+                    licencia.Producto = ldr["zth_producto"].ToString();
+                    licencia.Guid_cliente = ldr["guidCliente"].ToString();
+                    licencia.Guid_Producto = ldr["guidProducto"].ToString();
+                    licencia.Cantidad = int.Parse(ldr["zth_cantidad"].ToString());
+                    licencia.Pais = ldr["zth_pais"].ToString();
+                    licencia.FacturarA = ldr["zth_facturara"].ToString();
+                    //   // licencia.Cantidad = li.ObtenerCantidad(licencia.Guid_cliente);
 
 
                     foreach (DataRow pdr in pdt.Rows)
@@ -92,44 +90,49 @@ namespace Facturacion_CRM_Comercial.UI
                         precios.GuidProducto = pdr["idProducto"].ToString();
                         precios.Pais = "";
 
-                    //  string cliente = "Zenith Consulting SPA"; 
-                    //string producto = "Dynamics 365 for Customer Service Enterprise";
-
-                    //string cliente = "73989d7c-2626-e911-a835-000d3a1b730f";
-                    //string producto = "d5ff654c-b13e-e911-a83b-000d3a1b730f";
 
 
-                    //string cliente = "Oil Malal S.A.";
-                    //string producto = "Office 365 Business Essentials";
+                        #region ClientesProductosDePruebas
+                        //  string cliente = "Zenith Consulting SPA"; 
+                        //string producto = "Dynamics 365 for Customer Service Enterprise";
 
-                    string cliente = "ac94d5c7-853e-e911-a843-000d3a4fcfb2";
-                    string producto = "ec4bb360-b03e-e911-a83b-000d3a1b730f";
+                        //string cliente = "73989d7c-2626-e911-a835-000d3a1b730f";
+                        //string producto = "d5ff654c-b13e-e911-a83b-000d3a1b730f";
 
-                    if (precios.GuidCliente == cliente && precios.GuidProducto== producto)
-                        { 
 
-                            /// VALIDAD SI EXISTE LA FACTURA 
-                 
-                             fa.factura(licencia, precios);
-                             break;
+                        //string cliente = "Oil Malal S.A.";
+                        //string producto = "Office 365 Business Essentials";
+
+                        //string cliente = "ac94d5c7-853e-e911-a843-000d3a4fcfb2";
+                        //string producto = "ec4bb360-b03e-e911-a83b-000d3a1b730f";
+                        #endregion
+
+                        if ( licencia.Guid_cliente== precios.GuidCliente && licencia.Guid_Producto== precios.GuidProducto)
+                        {  
+                           creado=  fa.factura(licencia, precios);
+                          
+                         
+                                break;
+                        
+                            
+                            
                         }
-                        else
-                        {
-                        creado = null;
-                        }
-                 
+                     
+
                     }
+              
+                }
 
-               
-             // }
-
+                return creado;
                 ZthMetodosVarios.Metodos.GuardarLog(ruta, "Creación exitasa" );
+                
+
             }
             catch (Exception ex )
                     {
            
                 ZthMetodosVarios.Metodos.GuardarLog(ruta, "Se ha producido el siguiente error: " + ex.Message.ToString());
-                
+               return null;
             }
 
 
