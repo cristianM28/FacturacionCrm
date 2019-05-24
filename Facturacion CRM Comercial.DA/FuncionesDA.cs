@@ -12,7 +12,7 @@ using ZthFetchXml365;
 
 namespace Facturacion_CRM_Comercial.DA
 {
-    public  class FuncionesDA
+    public class FuncionesDA
     {
 
         #region HISTORIA
@@ -23,10 +23,10 @@ namespace Facturacion_CRM_Comercial.DA
 
         #region "Variables"
 
-      
-        
 
-         
+
+
+
         string ruta = ConfigurationManager.AppSettings["PathLogServicio"];
         IOrganizationService servicio = ConexionCRMDA.ObtenerConexion();
         LicenciaCspBE licencia = new LicenciaCspBE();
@@ -36,31 +36,31 @@ namespace Facturacion_CRM_Comercial.DA
 
         #region "Metodos" 
 
-        
+
 
         /// <summary>
         /// Se obtiene los datos  la licencia csp  
         /// </summary>
         /// <param name=" "></param>
         /// <returns>Retorna la entidad la licencia csp </returns>
-        public DataTable ObtenerDatosLicenciaCSP( )
-        {        
+        public DataTable ObtenerDatosLicenciaCSP()
+        {
             try
             {
-                
+
                 ZthFetchXml365.zthFetch fetch = new ZthFetchXml365.zthFetch("zth_licenciascsp", ref servicio);
                 //se capturan los datos de la entidad licencia csp
                 fetch.AgregarCampoRetorno("zth_licenciascsp", "zth_pais", ZthFetchXml365.zthFetch.TipoRetorno.PicklistName);
                 fetch.AgregarCampoRetorno("zth_licenciascsp", "zth_cliente", ZthFetchXml365.zthFetch.TipoRetorno.LookupName);
-                fetch.AgregarCampoRetorno("zth_licenciascsp", "zth_cliente", ZthFetchXml365.zthFetch.TipoRetorno.LookupValue,"guidCliente");
+                fetch.AgregarCampoRetorno("zth_licenciascsp", "zth_cliente", ZthFetchXml365.zthFetch.TipoRetorno.LookupValue, "guidCliente");
                 fetch.AgregarCampoRetorno("zth_licenciascsp", "zth_facturara", ZthFetchXml365.zthFetch.TipoRetorno.LookupValue);
                 fetch.AgregarCampoRetorno("zth_licenciascsp", "zth_cantidad", ZthFetchXml365.zthFetch.TipoRetorno.CrmNumber);
                 fetch.AgregarCampoRetorno("zth_licenciascsp", "zth_producto", ZthFetchXml365.zthFetch.TipoRetorno.LookupName);
-                fetch.AgregarCampoRetorno("zth_licenciascsp", "zth_producto", ZthFetchXml365.zthFetch.TipoRetorno.LookupValue,"guidProducto");
+                fetch.AgregarCampoRetorno("zth_licenciascsp", "zth_producto", ZthFetchXml365.zthFetch.TipoRetorno.LookupValue, "guidProducto");
 
 
                 //se agrupa los clientes y los productos
-               
+
 
                 fetch.AgregarOrdenResultadoEntidad("zth_licenciascsp", "zth_cliente",
                ZthFetchXml365.zthFetch.TipoOrdenCampoResultadoEntidad.Ascendente);
@@ -69,11 +69,12 @@ namespace Facturacion_CRM_Comercial.DA
                ZthFetchXml365.zthFetch.TipoOrdenCampoResultadoEntidad.Ascendente);
 
 
+
                 DataTable Dato = new DataTable();
                 Dato = fetch.GeneraTblconFetchResult(false);
- 
 
-                if (Dato.Rows.Count > 0)    
+
+                if (Dato.Rows.Count > 0)
                 {
                     return Dato;
                 }
@@ -84,19 +85,21 @@ namespace Facturacion_CRM_Comercial.DA
             }
             catch (Exception ex)
             {
-               
+
                 ZthMetodosVarios.Metodos.GuardarLog(ruta, "Error al obtener los datos de licecia csp: " + ex.Message.ToString());
                 return null;
             }
 
-            
+
 
         }
+
+       
         /// <summary>
         ///  se obtiene los datos de la entidad Precio Licencia Cliente 
         /// </summary>
         /// <returns>Retorna la entidad Precio Licencia Cliente</returns>
-        public DataTable ObtenerDatosPrecioLicenciaCliente( )
+        public DataTable ObtenerDatosPrecioLicenciaCliente()
         {
             try
             {
@@ -104,11 +107,11 @@ namespace Facturacion_CRM_Comercial.DA
                 ZthFetchXml365.zthFetch fetch = new ZthFetchXml365.zthFetch("zth_preciolicenciacliente", ref servicio);
                 //se capturan los datos de la entidad licencia csp
                 fetch.AgregarCampoRetorno("zth_preciolicenciacliente", "zth_cliente", ZthFetchXml365.zthFetch.TipoRetorno.LookupName);
-                fetch.AgregarCampoRetorno("zth_preciolicenciacliente", "zth_cliente", ZthFetchXml365.zthFetch.TipoRetorno.LookupValue,"idCliente");
+                fetch.AgregarCampoRetorno("zth_preciolicenciacliente", "zth_cliente", ZthFetchXml365.zthFetch.TipoRetorno.LookupValue, "idCliente");
                 fetch.AgregarCampoRetorno("zth_preciolicenciacliente", "zth_fecha", ZthFetchXml365.zthFetch.TipoRetorno.CrmDateTime);
                 fetch.AgregarCampoRetorno("zth_preciolicenciacliente", "zth_valor", ZthFetchXml365.zthFetch.TipoRetorno.CrmMoney);
                 fetch.AgregarCampoRetorno("zth_preciolicenciacliente", "zth_producto", ZthFetchXml365.zthFetch.TipoRetorno.LookupName);
-                fetch.AgregarCampoRetorno("zth_preciolicenciacliente", "zth_producto", ZthFetchXml365.zthFetch.TipoRetorno.LookupValue,"idProducto");
+                fetch.AgregarCampoRetorno("zth_preciolicenciacliente", "zth_producto", ZthFetchXml365.zthFetch.TipoRetorno.LookupValue, "idProducto");
                 fetch.AgregarCampoRetorno("zth_preciolicenciacliente", "zth_tipopago", ZthFetchXml365.zthFetch.TipoRetorno.PicklistName);
 
                 fetch.AgregarOrdenResultadoEntidad("zth_preciolicenciacliente", "zth_cliente",
@@ -137,7 +140,7 @@ namespace Facturacion_CRM_Comercial.DA
             catch (Exception ex)
             {
 
-                 
+
                 ZthMetodosVarios.Metodos.GuardarLog(ruta, "Error al obtener los datos de precio licencia cliente: " + ex.Message.ToString());
                 return null;
             }
@@ -145,21 +148,21 @@ namespace Facturacion_CRM_Comercial.DA
 
 
         }
-         
+
         /// <summary>
         /// Se obtiena el valor de Precio Licencia Clinete  
         /// </summary>
         /// <param name=""></param>
         /// <returns>Rtornar el valor de Precio Licencia Cliente </returns> 
-        public Money  RetornaUltimoValor( string idcli, string idpro)
-        { 
+        public Money RetornaUltimoValor(string idcli, string idpro)
+        {
             try
             {
                 ZthFetchXml365.zthFetch fetch = new ZthFetchXml365.zthFetch("zth_preciolicenciacliente", ref servicio);
                 //se capturan los datos de la entidad licencia csp                
                 fetch.AgregarCampoRetorno("zth_preciolicenciacliente", "zth_fecha", ZthFetchXml365.zthFetch.TipoRetorno.CrmDateTime);
                 fetch.AgregarCampoRetorno("zth_preciolicenciacliente", "zth_valor", ZthFetchXml365.zthFetch.TipoRetorno.CrmMoney);
-                
+
                 //se ordena la columna fecha de manera descendente 
                 fetch.AgregarOrdenResultadoEntidad("zth_preciolicenciacliente", "zth_fecha",
                    ZthFetchXml365.zthFetch.TipoOrdenCampoResultadoEntidad.Descendiente);
@@ -172,26 +175,26 @@ namespace Facturacion_CRM_Comercial.DA
 
                 DataTable Dato = new DataTable();
                 Dato = fetch.GeneraTblconFetchResult(false);
-                Money valor=null; 
+                Money valor = null;
                 if (Dato.Rows.Count > 0)
-                { 
-                      return  valor =(Money)Dato.Rows[0]["zth_valor"]; 
+                {
+                    return valor = (Money)Dato.Rows[0]["zth_valor"];
                 }
                 else
                 {
-                    return valor = null; 
+                    return valor = null;
                 }
             }
             catch (Exception ex)
             {
 
-           
+
                 ZthMetodosVarios.Metodos.GuardarLog(ruta, "Error al retornar el valor : " + ex.Message.ToString());
                 return null;
             }
-             
-        }
-         
+
+        }//----------------
+
 
         /// <summary>
         /// Metodo que obtiene el id de la unidad
@@ -202,17 +205,17 @@ namespace Facturacion_CRM_Comercial.DA
         {
             try
             {
-                string gid="";
+                string gid = "";
                 ZthFetchXml365.zthFetch fetch = new ZthFetchXml365.zthFetch("uomschedule", ref servicio);
                 fetch.AgregarEntidadLinkJoin("uomschedule", "uom", (zthFetch.TipoRelacionEntidadLink)1, "uomscheduleid", "uomscheduleid");
-            
+
                 //se capturan los datos de la entidad licencia csp
                 fetch.AgregarCampoRetorno("uom", "uomid", ZthFetchXml365.zthFetch.TipoRetorno.Key);
 
-                 
+
                 fetch.AgregarFiltroPlano("uomschedule", ZthFetchXml365.zthFetch.TipoFiltro.and, "uomscheduleid",
                      ZthFetchXml365.zthFetch.TipoComparacionFiltro.Igual, guid);
-                 
+
 
                 DataTable Dato = new DataTable();
                 Dato = fetch.GeneraTblconFetchResult(false);
@@ -226,7 +229,7 @@ namespace Facturacion_CRM_Comercial.DA
 
 
                     }
-         
+
                     return gid;
                 }
                 else
@@ -238,14 +241,14 @@ namespace Facturacion_CRM_Comercial.DA
             catch (Exception ex)
             {
 
-                 
+
                 ZthMetodosVarios.Metodos.GuardarLog(ruta, "Error al obtener la unidad: " + ex.Message.ToString());
                 return null;
             }
 
 
 
-        }
+        } //---------------
 
 
         /// <summary>
@@ -254,41 +257,48 @@ namespace Facturacion_CRM_Comercial.DA
         /// <param name="id">id del cliente</param>
         /// <param name="idpro">id del producto</param>
         /// <returns>retorna la cantidad del producto del cliente<</returns> 
-        public int ObtenerCantidad(string id, string idpro)
+        public DataTable ObtenerCantidad(string id, string idpro)
         {
             try
             {
-                ZthFetchXml365.zthFetch fetch = new ZthFetchXml365.zthFetch("zth_licenciascsp", ref servicio); 
+                ZthFetchXml365.zthFetch fetch = new ZthFetchXml365.zthFetch("zth_licenciascsp", ref servicio);
 
-                fetch.AgregarCampoRetorno("zth_licenciascsp", "zth_cantidad", ZthFetchXml365.zthFetch.TipoRetorno.String);
+                fetch.AgregarCampoRetorno("zth_licenciascsp", "zth_cantidad", ZthFetchXml365.zthFetch.TipoRetorno.CrmNumber);
+                //    fetch.AgregarCampoRetorno("zth_licenciascsp", "zth_producto", ZthFetchXml365.zthFetch.TipoRetorno.LookupName);
 
                 fetch.AgregarFiltroPlano("zth_licenciascsp", ZthFetchXml365.zthFetch.TipoFiltro.and, "zth_cliente",
                     ZthFetchXml365.zthFetch.TipoComparacionFiltro.Igual, id);
 
                 fetch.AgregarFiltroPlano("zth_licenciascsp", ZthFetchXml365.zthFetch.TipoFiltro.and, "zth_producto",
                    ZthFetchXml365.zthFetch.TipoComparacionFiltro.Igual, idpro);
-           
+
+
+                //fetch.AgregarFiltroPlano("zth_licenciascsp", ZthFetchXml365.zthFetch.TipoFiltro.and, "zth_cantidad",
+                //   ZthFetchXml365.zthFetch.TipoComparacionFiltro.MayorQue, "0");
+
 
                 DataTable Dato = new DataTable();
                 Dato = fetch.GeneraTblconFetchResult(false);
+                
 
-               int cantidad;
+                int cantidad;
                 if (Dato.Rows.Count > 0)
                 {
-                    return cantidad= int.Parse( Dato.Rows[0]["zth_cantidad"].ToString());
+                    return Dato;
+
                 }
                 else
                 {
-                    return cantidad = 0;
+                    return Dato=null;
                 }
             }
             catch (Exception ex)
             { 
                 
                 ZthMetodosVarios.Metodos.GuardarLog(ruta, "Se ha producido el siguiente error: " + ex.Message.ToString());
-                return 0;
+                return null;
             }
-        }
+        }//---------------
 
 
         /// <summary>
@@ -332,54 +342,9 @@ namespace Facturacion_CRM_Comercial.DA
                 ZthMetodosVarios.Metodos.GuardarLog(ruta, "Error al obtener los datos de licecia csp: " + ex.Message.ToString());
                 return null;
             }
-        }
+        }//---------
 
-
-        //public DataTable  Facturas(DateTime mes,DateTime mes2 ,string idcli)
-        //{
-        //    try
-        //    {
-
-        //        ZthFetchXml365.zthFetch fetch = new ZthFetchXml365.zthFetch("invoice", ref servicio);
-        //        //fetch.AgregarEntidadLinkJoin("invoice", "invoicedetail", (zthFetch.TipoRelacionEntidadLink)1, "invoiceid", "invoiceid");
-
-        //         fetch.AgregarCampoRetorno("invoice", "createdon", ZthFetchXml365.zthFetch.TipoRetorno.CrmDateTime);
-        //         fetch.AgregarCampoRetorno("invoice", "customerid", ZthFetchXml365.zthFetch.TipoRetorno.LookupName);
-        //        fetch.AgregarCampoRetorno("invoice", "invoicenumber", ZthFetchXml365.zthFetch.TipoRetorno.String);
-        //        fetch.AgregarCampoRetorno("invoice", "zth_nrofactrurafiscal", ZthFetchXml365.zthFetch.TipoRetorno.String); 
-        //       fetch.AgregarCampoRetorno("invoice", "zth_tipodeorigen", ZthFetchXml365.zthFetch.TipoRetorno.PicklistName);
-        //        //fetch.AgregarCampoRetorno("invoicedetail", "productid", ZthFetchXml365.zthFetch.TipoRetorno.LookupName);
-
-
-        //        fetch.AgregarFiltroPlano("invoice", ZthFetchXml365.zthFetch.TipoFiltro.and, "createdon",
-        //          ZthFetchXml365.zthFetch.TipoComparacionFiltro.FechaMayorIgualQue,  ""+mes.Month+"/"+mes.Day+"/"+mes.Year+"");
-
-        //        fetch.AgregarFiltroPlano("invoice", ZthFetchXml365.zthFetch.TipoFiltro.and, "createdon",
-        //          ZthFetchXml365.zthFetch.TipoComparacionFiltro.FechaMenorIgualQue, "" + mes2.Month + "/" + mes2.Day + "/" + mes2.Year + "");
-
-        //        fetch.AgregarFiltroPlano("invoice", ZthFetchXml365.zthFetch.TipoFiltro.and, "customerid",
-        //         ZthFetchXml365.zthFetch.TipoComparacionFiltro.Igual,  idcli);
-
-        //        DataTable Dato = new DataTable();
-        //        Dato = fetch.GeneraTblconFetchResult(false);
-
-            
-        //        if (Dato.Rows.Count > 0)
-        //        {
-        //            return   Dato ;
-        //        }
-        //        else
-        //        {
-        //            return Dato = null;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        ZthMetodosVarios.Metodos.GuardarLog(ruta, "Error al obtener los datos de licecia csp: " + ex.Message.ToString());
-        //        return null;
-        //    }
-        //}
+ 
 
             /// <summary>
             /// Metodo que valida si existe la factua y si esta dentro del mes actual
@@ -399,6 +364,7 @@ namespace Facturacion_CRM_Comercial.DA
 
                 fetch.AgregarCampoRetorno("invoice", "createdon", ZthFetchXml365.zthFetch.TipoRetorno.CrmDateTime);
                 fetch.AgregarCampoRetorno("invoice", "customerid", ZthFetchXml365.zthFetch.TipoRetorno.LookupValue);
+                fetch.AgregarCampoRetorno("invoice", "customerid", ZthFetchXml365.zthFetch.TipoRetorno.LookupName,"Clientes");
                 fetch.AgregarCampoRetorno("invoice", "invoicenumber", ZthFetchXml365.zthFetch.TipoRetorno.String);
                // fetch.AgregarCampoRetorno("invoice", "zth_nrofactrurafiscal", ZthFetchXml365.zthFetch.TipoRetorno.String);
                 fetch.AgregarCampoRetorno("invoice", "zth_tipodeorigen", ZthFetchXml365.zthFetch.TipoRetorno.PicklistValue);
@@ -442,8 +408,12 @@ namespace Facturacion_CRM_Comercial.DA
                 ZthMetodosVarios.Metodos.GuardarLog(ruta, "Error al obtener los datos de licecia csp: " + ex.Message.ToString());
                 return null;
             }
-        }
-
+        }///------------
+        /// <summary>
+        /// Metodo que verifica si existe el producto dentro del detalle de la factura 
+        /// </summary>
+        /// <param name="cli">Id del producto de la factura </param>
+        /// <returns>Retorna el id del detalle da la factura</returns>
         public string  IdFactura(string cli)
         {
             try
@@ -481,77 +451,83 @@ namespace Facturacion_CRM_Comercial.DA
                 ZthMetodosVarios.Metodos.GuardarLog(ruta, "Error al obtener los datos de licecia csp: " + ex.Message.ToString());
                 return null;
             }
-        }
+        }//--------------
 
-        /// <summary>
-        ///   Metodo que obtiene la fecha de creación de la factrua 
-        /// </summary>
-        /// <param name="cli"> Se da por parametor el Guid del cliente</param>
-        /// <returns>Retorna la fecha de creacion de la factura </returns>
-        public DateTime FechaCreaciónFactura (string cli ,string idfac)
-        { 
-            try
-            {
+        ///// <summary>
+        /////   Metodo que obtiene la fecha de creación de la factrua 
+        ///// </summary>
+        ///// <param name="cli"> Se da por parametor el Guid del cliente</param>
+        ///// <returns>Retorna la fecha de creacion de la factura </returns>
+        //public DateTime FechaCreaciónFactura (string cli ,string idfac)
+        //{ 
+        //    try
+        //    {
 
-                ZthFetchXml365.zthFetch fetch = new ZthFetchXml365.zthFetch("invoice", ref servicio);
+        //        ZthFetchXml365.zthFetch fetch = new ZthFetchXml365.zthFetch("invoice", ref servicio);
                  
-                fetch.AgregarCampoRetorno("invoice", "createdon", ZthFetchXml365.zthFetch.TipoRetorno.CrmDateTime);
-                fetch.AgregarCampoRetorno("invoice", "customerid", ZthFetchXml365.zthFetch.TipoRetorno.LookupName);
-                fetch.AgregarCampoRetorno("invoice", "invoicenumber", ZthFetchXml365.zthFetch.TipoRetorno.String);
+        //        fetch.AgregarCampoRetorno("invoice", "createdon", ZthFetchXml365.zthFetch.TipoRetorno.CrmDateTime);
+        //        fetch.AgregarCampoRetorno("invoice", "customerid", ZthFetchXml365.zthFetch.TipoRetorno.LookupName);
+        //        fetch.AgregarCampoRetorno("invoice", "invoicenumber", ZthFetchXml365.zthFetch.TipoRetorno.String);
 
-                //fetch.AgregarFiltroPlano("invoice", ZthFetchXml365.zthFetch.TipoFiltro.and, "customerid",
-                //  ZthFetchXml365.zthFetch.TipoComparacionFiltro.Igual,cli);
+        //        //fetch.AgregarFiltroPlano("invoice", ZthFetchXml365.zthFetch.TipoFiltro.and, "customerid",
+        //        //  ZthFetchXml365.zthFetch.TipoComparacionFiltro.Igual,cli);
 
-                fetch.AgregarFiltroPlano("invoice", ZthFetchXml365.zthFetch.TipoFiltro.and, "invoicenumber",
-                 ZthFetchXml365.zthFetch.TipoComparacionFiltro.Igual, idfac);
+        //        fetch.AgregarFiltroPlano("invoice", ZthFetchXml365.zthFetch.TipoFiltro.and, "invoicenumber",
+        //         ZthFetchXml365.zthFetch.TipoComparacionFiltro.Igual, idfac);
 
-                //fetch.AgregarOrdenResultadoEntidad("invoice", "createdon",
-                //   ZthFetchXml365.zthFetch.TipoOrdenCampoResultadoEntidad.Descendiente);
+        //        //fetch.AgregarOrdenResultadoEntidad("invoice", "createdon",
+        //        //   ZthFetchXml365.zthFetch.TipoOrdenCampoResultadoEntidad.Descendiente);
 
 
 
-                DataTable Dato = new DataTable();
-                Dato = fetch.GeneraTblconFetchResult(false);
+        //        DataTable Dato = new DataTable();
+        //        Dato = fetch.GeneraTblconFetchResult(false);
 
-                DateTime idFac;
-                if (Dato.Rows.Count > 0)
-                {
-                    return idFac = (DateTime)Dato.Rows[0]["createdon"];
-                }
-                else
-                {
-                    return idFac =new DateTime() ;
-                }
-            }
-            catch (Exception ex)
-            {
+        //        DateTime idFac;
+        //        if (Dato.Rows.Count > 0)
+        //        {
+        //            return idFac = (DateTime)Dato.Rows[0]["createdon"];
+        //        }
+        //        else
+        //        {
+        //            return idFac =new DateTime() ;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
 
-                ZthMetodosVarios.Metodos.GuardarLog(ruta, "Error al obtener los datos de licecia csp: " + ex.Message.ToString());
-                 return new DateTime();
-            }
-        }
+        //        ZthMetodosVarios.Metodos.GuardarLog(ruta, "Error al obtener los datos de licecia csp: " + ex.Message.ToString());
+        //         return new DateTime();
+        //    }
+        //}
          
         /// <summary>
         /// Captura losproductos de los clienetes 
         /// </summary>
         /// <param name="guid">parametro guid del cliente registrado</param>
         /// <returns>retorna los productos de los clientes</returns>
-        public DataTable ProductosCliente(string guid)
+        public DataTable ProductosCliente(string guid ,string idproducto)
         {
-             
+
             try
             {
 
-                ZthFetchXml365.zthFetch fetch = new ZthFetchXml365.zthFetch("zth_preciolicenciacliente", ref servicio);
+                ZthFetchXml365.zthFetch fetch = new ZthFetchXml365.zthFetch("zth_licenciascsp", ref servicio);
 
-              
-                fetch.AgregarCampoRetorno("zth_preciolicenciacliente", "zth_producto", ZthFetchXml365.zthFetch.TipoRetorno.LookupValue);
- 
-                fetch.AgregarFiltroPlano("zth_preciolicenciacliente", ZthFetchXml365.zthFetch.TipoFiltro.and, "zth_cliente",
+
+                fetch.AgregarCampoRetorno("zth_licenciascsp", "zth_producto", ZthFetchXml365.zthFetch.TipoRetorno.LookupValue);
+                fetch.AgregarCampoRetorno("zth_licenciascsp", "zth_producto", ZthFetchXml365.zthFetch.TipoRetorno.LookupName, " Productos");
+                fetch.AgregarCampoRetorno("zth_licenciascsp", "zth_cantidad", ZthFetchXml365.zthFetch.TipoRetorno.String);
+
+                fetch.AgregarFiltroPlano("zth_licenciascsp", ZthFetchXml365.zthFetch.TipoFiltro.and, "zth_cliente",
                 ZthFetchXml365.zthFetch.TipoComparacionFiltro.Igual, guid.ToString());
 
 
+                fetch.AgregarOrdenResultadoEntidad("zth_preciolicenciacliente", "productos",
+               ZthFetchXml365.zthFetch.TipoOrdenCampoResultadoEntidad.Ascendente);
 
+                //fetch.AgregarFiltroPlano("zth_preciolicenciacliente", ZthFetchXml365.zthFetch.TipoFiltro.and, "zth_producto",
+                // ZthFetchXml365.zthFetch.TipoComparacionFiltro.Igual, idproducto.ToString());
 
                 DataTable Dato = new DataTable();
                 Dato = fetch.GeneraTblconFetchResult(false);
@@ -571,10 +547,11 @@ namespace Facturacion_CRM_Comercial.DA
                 ZthMetodosVarios.Metodos.GuardarLog(ruta, "Error al obtener los datos de licecia csp: " + ex.Message.ToString());
                 return null;
             }
-        }
+        }//--------------
+
+      
 
 
-        
         /// <summary>
         /// Obtiene el numero identificacor del producto del detalle de la factura 
         /// </summary>
@@ -619,7 +596,7 @@ namespace Facturacion_CRM_Comercial.DA
                 return null;
             }
 
-        }
+        }//--------------------
 
         #endregion
 

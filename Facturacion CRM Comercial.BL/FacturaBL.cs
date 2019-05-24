@@ -38,39 +38,39 @@ namespace Facturacion_CRM_Comercial.BL
         /// <param name="pre">parametros de precio licencia cliente</param>
         /// <returns> retorna la factura creada</returns>
 
-        public string factura(LicenciaCspBE lic, PrecioLicenciaClienteBE pre)
+        public void factura(LicenciaCspBE lic, PrecioLicenciaClienteBE pre)
         {
             try
             {
-              return fa.CrearFactura(lic, pre);
+               fa.CrearFactura(lic, pre);
             }
             catch (Exception ex)
             {
-                return null;
+              //  return null;
                 throw ex;
               
             }
         }
 
-        /// <summary>
-        /// Metodo que obtiene el ultimo valor registrado
-        /// </summary>
-        /// <param name="idcli">parametro de guid del cliente </param>
-        /// <param name="idpro">parametro guid del producto </param>
-        /// <returns>Retorna el ultimo valor</returns>
-        public Money UltimoValor( string idcli, string idpro)
-        {
-            try
-            {
-                return fun.RetornaUltimoValor(idcli, idpro);
+        ///// <summary>
+        ///// Metodo que obtiene el ultimo valor registrado
+        ///// </summary>
+        ///// <param name="idcli">parametro de guid del cliente </param>
+        ///// <param name="idpro">parametro guid del producto </param>
+        ///// <returns>Retorna el ultimo valor</returns>
+        //public Money UltimoValor( string idcli, string idpro)
+        //{
+        //    try
+        //    {
+        //        return fun.RetornaUltimoValor(idcli, idpro);
 
-            }
-            catch (Exception ex )
-            {
+        //    }
+        //    catch (Exception ex )
+        //    {
 
-                throw ex ;
-            }
-        }
+        //        throw ex ;
+        //    }
+        //}
 
        
         #endregion

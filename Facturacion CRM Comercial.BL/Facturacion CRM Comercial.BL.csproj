@@ -47,8 +47,6 @@
   <ItemGroup>
     <Compile Include="FacturaBL.cs" />
     <Compile Include="FuncionesBL.cs" />
-    <Compile Include="LicenciaCspBL.cs" />
-    <Compile Include="PrecioLicenciaClienteBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

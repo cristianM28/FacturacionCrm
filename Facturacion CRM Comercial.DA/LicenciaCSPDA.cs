@@ -35,36 +35,36 @@ namespace Facturacion_CRM_Comercial.DA
 
 
 
-        /// <summary>
-        /// se capturan los datos desde el  crm y se almacenan en la clase licencias csp
-        /// </summary>
-      public LicenciaCspBE CapturaLicenciaCsp()
-        {
-           DataTable dt = fun.ObtenerDatosLicenciaCSP();
+      //  /// <summary>
+      //  /// se capturan los datos desde el  crm y se almacenan en la clase licencias csp
+      //  /// </summary>
+      //public LicenciaCspBE CapturaLicenciaCsp()
+      //  {
+      //     DataTable dt = fun.ObtenerDatosLicenciaCSP();
 
             
-            try
-            {
+      //      try
+      //      {
 
-                foreach (DataRow dr in dt.Rows)
-                {
-                    licencia.Cliente = dr["zth_cliente"].ToString();
-                    licencia.FacturarA = dr["zth_facturara"].ToString();
-                    licencia.Producto = dr["zth_producto"].ToString();
-                    //licencia.Cantidad = int.Parse(dr["zth_cantidad"].ToString());
+      //          foreach (DataRow dr in dt.Rows)
+      //          {
+      //              licencia.Cliente = dr["zth_cliente"].ToString();
+      //              licencia.FacturarA = dr["zth_facturara"].ToString();
+      //              licencia.Producto = dr["zth_producto"].ToString();
+      //              //licencia.Cantidad = int.Parse(dr["zth_cantidad"].ToString());
                      
-                }
+      //          }
           
-                return licencia;
+      //          return licencia;
 
-            }
-            catch (Exception ex)
-            {
+      //      }
+      //      catch (Exception ex)
+      //      {
 
-                ZthMetodosVarios.Metodos.GuardarLog(ruta, "Error al captura los datos de LicenciaCspDA : " + ex.Message.ToString());
-                return null;
-            }
-        }
+      //          ZthMetodosVarios.Metodos.GuardarLog(ruta, "Error al captura los datos de LicenciaCspDA : " + ex.Message.ToString());
+      //          return null;
+      //      }
+      //  }
 
 
 

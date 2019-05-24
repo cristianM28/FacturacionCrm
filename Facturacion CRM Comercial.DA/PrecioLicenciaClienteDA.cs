@@ -30,68 +30,68 @@ namespace Facturacion_CRM_Comercial.DA
         #region Metodos
 
 
-        /// <summary>
-        /// metodo que captura los datos desde el crm y los almacena en la clase precio licencia cliente 
-        /// </summary>
-        /// <returns></returns>
-        public  PrecioLicenciaClienteBE CapturarDatoPLC()
-        {
-          DataTable dt= fun.ObtenerDatosPrecioLicenciaCliente();
+        ///// <summary>
+        ///// metodo que captura los datos desde el crm y los almacena en la clase precio licencia cliente 
+        ///// </summary>
+        ///// <returns></returns>
+        //public  PrecioLicenciaClienteBE CapturarDatoPLC()
+        //{
+        //  DataTable dt= fun.ObtenerDatosPrecioLicenciaCliente();
 
-            try
-            {
-                foreach (DataRow dr in dt.Rows)
-                {
+        //    try
+        //    {
+        //        foreach (DataRow dr in dt.Rows)
+        //        {
                      
-                    plc.Cliente = dr["zth_cliente"].ToString();
-                    plc.Producto = dr["zth_producto"].ToString();
-                    plc.Fecha =DateTime.Parse( dr["zth_fecha"].ToString());
-                    plc.Valor = (Money) dr["zth_valor"];
+        //            plc.Cliente = dr["zth_cliente"].ToString();
+        //            plc.Producto = dr["zth_producto"].ToString();
+        //            plc.Fecha =DateTime.Parse( dr["zth_fecha"].ToString());
+        //            plc.Valor = (Money) dr["zth_valor"];
 
-                }
-                ///string ultimo =UltimoValorRegistrado().ToString();
-                return plc;
-            }
-            catch (Exception ex )
-            {
+        //        }
+        //        ///string ultimo =UltimoValorRegistrado().ToString();
+        //        return plc;
+        //    }
+        //    catch (Exception ex )
+        //    {
 
                
-                ZthMetodosVarios.Metodos.GuardarLog(ruta, "Error al capturar los datos de precios licencia cliente: " + ex.Message.ToString());
-                return null;
-            }
-        }
+        //        ZthMetodosVarios.Metodos.GuardarLog(ruta, "Error al capturar los datos de precios licencia cliente: " + ex.Message.ToString());
+        //        return null;
+        //    }
+        //}
          
 
 
-        /// <summary>
-        /// Metodo que rescata el ultino valor regitrado
-        /// </summary>
-        /// <returns>ultimo valor del registro </returns>
-        public Money UltimoValor(string idcli, string idpro )
-        {
+        ///// <summary>
+        ///// Metodo que rescata el ultino valor regitrado
+        ///// </summary>
+        ///// <returns>ultimo valor del registro </returns>
+        //public Money UltimoValor(string idcli, string idpro )
+        //{
 
-           Money valor=fun.RetornaUltimoValor(idcli, idpro);
-            try
-            {
-                if (valor!=null)
-                {
-                    return valor;
-                }
-                else
-                {
-                    return null;
-                }
+        //   Money valor=fun.RetornaUltimoValor(idcli, idpro);
+        //    try
+        //    {
+        //        if (valor!=null)
+        //        {
+        //            return valor;
+        //        }
+        //        else
+        //        {
+        //            return null;
+        //        }
 
 
 
-            }
-            catch (Exception ex)
-            {
+        //    }
+        //    catch (Exception ex)
+        //    {
              
-                ZthMetodosVarios.Metodos.GuardarLog(ruta, "Error al capturar el ultimo valor : " + ex.Message.ToString());
-                return null;
-            }
-        }
+        //        ZthMetodosVarios.Metodos.GuardarLog(ruta, "Error al capturar el ultimo valor : " + ex.Message.ToString());
+        //        return null;
+        //    }
+        //}
 
 
         

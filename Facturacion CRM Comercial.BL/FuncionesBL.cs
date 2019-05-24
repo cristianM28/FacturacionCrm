@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,34 +20,56 @@ namespace Facturacion_CRM_Comercial.BL
 
 
         #region Metodos
-
-        public string ObtenerPais( string id)
+ 
+        /// <summary>
+        /// Obtiene los datos desde el crm 
+        /// </summary>
+        /// <returns>Retorna la clase con los datos</returns>
+        public DataTable CapturDatosLicencia()
         {
             try
             {
-                return fun.ObtenerPais(id);
+                return fun.ObtenerDatosLicenciaCSP();
+
+
             }
-            catch (Exception ex )
+            catch (Exception ex)
             {
 
                 throw ex;
             }
         }
 
-
-      /*  public int ObtenerCantidad(string id ,string idpro)
+        /// <summary>
+        /// Se captura los datos desde crm
+        /// </summary>
+        /// <returns>Se retorna la clase con los datos </returns>
+        public DataTable CapturaDatosCrm()
         {
             try
             {
-                return fun.ObtenerCantidad(id,idpro);
+                return fun.ObtenerDatosPrecioLicenciaCliente();
             }
             catch (Exception ex)
             {
 
-                throw ex ;
+                throw ex;
             }
         }
-        */
+
+         //public int ObtenerCantidad(string id ,string idpro)
+         // {
+         //     try
+         //     {
+         //         return fun.ObtenerCantidad(id,idpro);
+         //     }
+         //     catch (Exception ex)
+         //     {
+
+         //         throw ex ;
+         //     }
+         // }
+          
         #endregion
 
 
