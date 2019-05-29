@@ -73,6 +73,14 @@ namespace Facturacion_CRM_Comercial.BE
             set { _pasi = value; }
         }
 
+        private int _dolar;
+
+        public int Dolar
+        {
+            get { return _dolar; }
+            set { _dolar = value; }
+        }
+
 
         #endregion
 

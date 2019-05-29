@@ -95,6 +95,13 @@ namespace Facturacion_CRM_Comercial.BE
         }
 
 
+        private string _tipoPago;
+
+        public string TipoPago
+        {
+            get { return _tipoPago; }
+            set { _tipoPago = value; }
+        }
 
         #endregion
 

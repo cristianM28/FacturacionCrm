@@ -553,11 +553,11 @@ namespace Facturacion_CRM_Comercial.DA
 
 
         /// <summary>
-        /// Obtiene el numero identificacor del producto del detalle de la factura 
+        /// Obtiene el numero identificacor del producto  de la factura 
         /// </summary>
         /// <param name="idprode">id del detalle de la factura </param>
         /// <param name="idpro">id del producto</param>
-        /// <returns></returns>
+        /// <returns>Retorna null si no existen productos</returns>
         public string IdProductos(string idprode ,string idpro )
         {
             try

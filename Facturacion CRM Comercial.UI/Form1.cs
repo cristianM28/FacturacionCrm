@@ -85,7 +85,7 @@ namespace Facturacion_CRM_Comercial.UI
                         precios.GuidCliente = pdr["idCliente"].ToString();
                         precios.GuidProducto = pdr["idProducto"].ToString();
                         precios.Pais = "";
-
+                        precios.TipoPago = pdr["zth_tipopago"].ToString();
 
 
                     #region ClientesProductosDePruebas
@@ -99,8 +99,8 @@ namespace Facturacion_CRM_Comercial.UI
                     //string cliente = "Oil Malal S.A.";
                     //string producto = "Office 365 Business Essentials";
 
-                    string cliente = "ac94d5c7-853e-e911-a843-000d3a4fcfb2";
-                    string producto = "ec4bb360-b03e-e911-a83b-000d3a1b730f";
+                    //string cliente = "ac94d5c7-853e-e911-a843-000d3a4fcfb2";
+                    //string producto = "ec4bb360-b03e-e911-a83b-000d3a1b730f";
                     // /---------------------------------------------
 
                     //string cliente = "Comunicaciones Quasar";
@@ -115,8 +115,8 @@ namespace Facturacion_CRM_Comercial.UI
                     //string producto = "fb338c36-b03e-e911-a83b-000d3a1b730f";
                     //-----------------------------------------------------
                     //euro motors
-                    //string cliente = "9ca87290-9554-e911-a869-000d3a537e12";
-                    //string producto = "392a080f-9d72-e911-a85a-000d3a1f4157";
+                    string cliente = "9ca87290-9554-e911-a869-000d3a537e12";
+                    string producto = "392a080f-9d72-e911-a85a-000d3a1f4157";
 
 
                     #endregion
