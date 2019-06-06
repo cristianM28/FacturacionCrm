@@ -74,7 +74,7 @@ namespace Facturacion_CRM_Comercial.UI
                 //    licencia.Cantidad = int.Parse(ldr["zth_cantidad"].ToString());
                 //    licencia.Pais = ldr["zth_pais"].ToString();
                 //    licencia.FacturarA = ldr["zth_facturara"].ToString();
-                     
+
 
 
                     foreach (DataRow pdr in pdt.Rows)
@@ -111,19 +111,19 @@ namespace Facturacion_CRM_Comercial.UI
 
                     //-------------------------------------------------
                     ///geologia  servicios 
-                    //string cliente = "f9b7c041-504b-e911-a84f-000d3a4fcfb2";
-                    //string producto = "fb338c36-b03e-e911-a83b-000d3a1b730f";
+                    string cliente = "f9b7c041-504b-e911-a84f-000d3a4fcfb2";
+                    string producto = "fb338c36-b03e-e911-a83b-000d3a1b730f";
                     //-----------------------------------------------------
                     //euro motors
-                    string cliente = "9ca87290-9554-e911-a869-000d3a537e12";
-                    string producto = "392a080f-9d72-e911-a85a-000d3a1f4157";
+                    //string cliente = "9ca87290-9554-e911-a869-000d3a537e12";
+                    //string producto = "392a080f-9d72-e911-a85a-000d3a1f4157";
 
 
                     #endregion
 
                     //if (licencia.Guid_cliente == precios.GuidCliente && licencia.Guid_Producto == precios.GuidProducto)
                     //{
-                    if (cliente == precios.GuidCliente && producto == precios.GuidProducto)
+                    if (  cliente == precios.GuidCliente &&  producto == precios.GuidProducto)
                         {
                             fa.factura(licencia, precios); 
                                 break;
@@ -139,7 +139,7 @@ namespace Facturacion_CRM_Comercial.UI
 
 
                 }
-       //  }
+      //   }
 
               //  return creado;
                 ZthMetodosVarios.Metodos.GuardarLog(ruta, "Creación exitasa" );
